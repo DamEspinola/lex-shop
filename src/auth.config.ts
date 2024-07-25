@@ -25,7 +25,7 @@ export const authConfig: NextAuthConfig = {
     },
 
     jwt({ token, user }) {
-      console.log({ token, user });
+      // console.log({ token, user });
 
       if (user) {
         token.data = user;
