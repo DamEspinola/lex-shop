@@ -46,7 +46,7 @@ export const Sidebar = () => {
       {/* Sidermenu */}
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
+          "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300 ",
           {
             "translate-x-full": !isSideMenuOpen,
           }
@@ -119,7 +119,8 @@ export const Sidebar = () => {
             <div className="w-full h-px bg-gray-200 my-10" />
 
             <Link
-              href="/"
+              href="/admin/products"
+              onClick={() => closeMenu()}
               className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
             >
               <IoShirtOutline size={30} />
@@ -127,7 +128,8 @@ export const Sidebar = () => {
             </Link>
 
             <Link
-              href="/orders"
+              href="/admin/orders"
+              onClick={() => closeMenu()}
               className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
             >
               <IoTicketOutline size={30} />
@@ -135,7 +137,8 @@ export const Sidebar = () => {
             </Link>
 
             <Link
-              href="/"
+              href="/admin/users"
+              onClick={() => closeMenu()}
               className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
             >
               <IoPeopleOutline size={30} />
