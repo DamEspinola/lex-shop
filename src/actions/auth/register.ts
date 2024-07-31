@@ -11,7 +11,7 @@ export const registerUser = async (
   try {
     const user = await prisma.user.create({
       data: {
-        email: email,
+        email: email.toLowerCase(),
         name: name.toLowerCase(),
         password: bcryptjs.hashSync(password),
       },
