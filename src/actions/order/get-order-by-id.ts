@@ -23,6 +23,7 @@ export const getOrderById = async (id: string) => {
             price: true,
             quantity: true,
             size: true,
+            colors: true,
 
             product: {
               select: {

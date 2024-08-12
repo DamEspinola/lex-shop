@@ -37,7 +37,8 @@ export const PlaceOrder = () => {
     const productsToOrder = cart.map((product) => ({
       productId: product.id,
       quantity: product.quantity,
-      size: product.size, // <- este se podria cambiar
+      size: product?.size, // <- este se podria cambiar
+      colors: product?.colors, 
     }));
 
     const resp = await placeOrder(productsToOrder, address);

@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Gender, Product, Size } from "@prisma/client";
+import { Categories, Colors, Product, Size, Storage } from "@prisma/client";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
@@ -21,9 +21,17 @@ const productSchema = z.object({
     .min(0)
     .transform((val) => Number(val.toFixed(0))),
   categoryId: z.string().uuid(),
-  sizes: z.coerce.string().transform((val) => val.split(",")),
+  sizes: z.string()
+  .optional()
+  .transform((val) => val ? val.split(",").map(size => size.trim().toUpperCase() as Size) : []),
+  colors: z.string()
+  .optional()
+  .transform((val) => val ? val.split(",").map(color => color.trim().toUpperCase() as Colors) : []),
+  storage: z.string()
+  .optional()
+  .transform((val) => val ? val.split(",").map(color => color.trim().toUpperCase() as Storage) : []),
   tags: z.string(),
-  gender: z.nativeEnum(Gender),
+  categories: z.nativeEnum(Categories),
 });
 
 export const createUpdateProduct = async (formData: FormData) => {
@@ -38,7 +46,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   const product = productParsed.data;
   product.slug = product.slug.toLowerCase().replace(/ /g, "-").trim();
 
-  const { id, ...rest } = product;
+  const { id, sizes, colors, storage, ...rest } = product;
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
@@ -46,6 +54,9 @@ export const createUpdateProduct = async (formData: FormData) => {
       const tagsArray = rest.tags
         .split(",")
         .map((tag) => tag.trim().toLowerCase());
+        const sizesArray = sizes.map((size) => size.toUpperCase() as Size);
+        const colorsArray = colors.map((color) => color.toUpperCase() as Colors);
+        const storageArray = storage.map((storage) => storage.toUpperCase() as Storage);
 
       if (id) {
         // Actualizar
@@ -53,8 +64,14 @@ export const createUpdateProduct = async (formData: FormData) => {
           where: { id },
           data: {
             ...rest,
+            storage: {
+              set: storageArray
+            },
+            colors: {
+              set: colorsArray
+            },
             sizes: {
-              set: rest.sizes as Size[],
+              set: sizesArray,
             },
             tags: {
               set: tagsArray,
@@ -66,9 +83,9 @@ export const createUpdateProduct = async (formData: FormData) => {
         product = await prisma.product.create({
           data: {
             ...rest,
-            sizes: {
-              set: rest.sizes as Size[],
-            },
+            sizes: sizes.length ? { set: sizesArray } : undefined,
+            storage: storage.length ? { set: storageArray } : undefined,
+            colors: colors.length ? { set: colorsArray } : undefined,
             tags: {
               set: tagsArray,
             },
@@ -108,6 +125,8 @@ export const createUpdateProduct = async (formData: FormData) => {
       product: prismaTx.product,
     };
   } catch (error) {
+    console.log(error);
+    
     return {
       ok: false,
       message: "Revisar los logs, no se pudo actualizar/crear",
