@@ -25,7 +25,7 @@ export const PlaceOrder = () => {
     if (itemsCart === 0) { // validacion si esta vacio los items
       redirect("/empty");
     }
-  }, []);
+  }, [itemsCart]);
 
   if (!loaded) {
     <p>Cargando...</p>;

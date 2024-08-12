@@ -16,6 +16,7 @@ import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
 import { Search } from "@/components/search/Search";
 import { Product } from "@/interfaces";
+import { Suspense } from "react";
 
 export const Sidebar = ({
   searchParams,
@@ -67,7 +68,9 @@ export const Sidebar = ({
         />
 
         {/* InputSearch */}
+        <Suspense fallback={<div>Loading search...</div>}>
           <Search query={query} />
+        </Suspense>
 
         {/* Menú */}
         {isAuthenticated && (
