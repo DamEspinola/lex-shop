@@ -8,15 +8,23 @@ import {
   IoLogOutOutline,
   IoPeopleOutline,
   IoPersonOutline,
-  IoSearchOutline,
   IoShirtOutline,
   IoTicketOutline,
 } from "react-icons/io5";
 import { useUIStore } from "@/store";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
+import { Search } from "@/components/search/Search";
+import { Product } from "@/interfaces";
 
-export const Sidebar = () => {
+export const Sidebar = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: Product[];
+  };
+}) => {
+  const query = searchParams?.query || [];
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
@@ -46,7 +54,7 @@ export const Sidebar = () => {
       {/* Sidermenu */}
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300 ",
+          "fixed p-5 right-0 top-0 w-full sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
           {
             "translate-x-full": !isSideMenuOpen,
           }
@@ -58,15 +66,8 @@ export const Sidebar = () => {
           onClick={() => closeMenu()}
         />
 
-        {/* Input */}
-        <div className="relative mt-14">
-          <IoSearchOutline size={20} className="absolute top-2 left-2" />
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
-          />
-        </div>
+        {/* InputSearch */}
+          <Search query={query} />
 
         {/* Menú */}
         {isAuthenticated && (

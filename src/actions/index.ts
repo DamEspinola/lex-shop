@@ -18,3 +18,5 @@ export * from "./order/get-paginated-orders";
 export * from "./user/get-paginated-user";
 export * from "./category/get-category";
 export * from "./product/delete-product-image";
+export * from "./product/search-product";
+

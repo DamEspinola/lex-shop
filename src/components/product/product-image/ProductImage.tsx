@@ -7,6 +7,8 @@ interface Props {
   height: number;
   className?: React.StyleHTMLAttributes<HTMLImageElement>["className"];
   style?: React.StyleHTMLAttributes<HTMLImageElement>["style"];
+  onMouseEnter?: React.MouseEventHandler<HTMLImageElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLImageElement>;
 }
 
 export const ProductImage = ({
@@ -16,6 +18,8 @@ export const ProductImage = ({
   className,
   src,
   style,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) => {
   const localSrc = src
     ? src.startsWith("http") // https://urlcompletodelaimagen.jpg
@@ -32,6 +36,8 @@ export const ProductImage = ({
         height={height}
         className={className}
         style={style}
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
       />
     </>
   );
