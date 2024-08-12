@@ -12,7 +12,7 @@ interface Props {
 export default async function ProductPage({ params }: Props) {
   const { slug } = params;
 
-  const [product, categories] = await Promise.all([ // <- en paralelo
+  const [product, category] = await Promise.all([ // <- en paralelo
     getProductBySlug(slug),
     getCategory(),
   ]);
@@ -28,7 +28,7 @@ export default async function ProductPage({ params }: Props) {
     <>
       <Title title={title} />
 
-      <ProductForm product={product ?? {}} categories={categories} />
+      <ProductForm product={product ?? {}} category={category} />
     </>
   );
 }

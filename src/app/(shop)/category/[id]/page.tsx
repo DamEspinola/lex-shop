@@ -2,7 +2,7 @@ export const revalidate = 60 // <- 60 segundos
 
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, Title } from "@/components";
-import { Gender } from "@prisma/client";
+import { Categories } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -15,17 +15,20 @@ interface Props {
 }
 
 const lables: Record<string, string> = {
-  men: "Hombres",
-  women: "Mujeres",
-  kid: "Niños",
-  unisex: "Varios",
+  fashion_men: "Hombres",
+  fashion_women: "Mujeres",
+  fashion_kid: "Niños",
+  fashion_unisex: "Varios",
+  informatics: "Informática",
+  smartphones: "Celular",
+  appliances: "Electrodomésticos",
 };
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { id } = params;
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({
-     page, gender: id as Gender
+     page, categories: id as Categories
       });
 
   if (products.length === 0) {

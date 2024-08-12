@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { inter } from "../config/fonts";
+import { DmSans } from "../config/fonts";
 import { Providers } from "@/components";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={inter.className}>{children}</body>
+        <body className={DmSans.className}>{children}</body>
       </Providers>
     </html>
   );

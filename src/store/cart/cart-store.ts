@@ -29,7 +29,10 @@ export const useCartStore = create<state>()(
       addCartProduct: (product: CartProduct) => {
         const { cart } = get();
         const productInCart = cart.some(
-          (item) => item.id === product.id && item.size === product.size
+          (item) =>
+            item.id === product.id &&
+            item.size === product.size &&
+            item.colors === product.colors
         );
 
         if (!productInCart) {
@@ -39,7 +42,11 @@ export const useCartStore = create<state>()(
 
         // 2. se que el producto existe por talla debo de incrementar
         const updateCartProduct = cart.map((item) => {
-          if (item.id === product.id && item.size === product.size) {
+          if (
+            item.id === product.id &&
+            item.size === product.size &&
+            item.colors === product.colors
+          ) {
             return { ...item, quantity: item.quantity + item.quantity };
           }
           return item;
@@ -49,7 +56,11 @@ export const useCartStore = create<state>()(
       updateCartProduct: (product: CartProduct, quantity: number) => {
         const { cart } = get();
         const updateCartProduct = cart.map((item) => {
-          if (item.id === product.id && item.size === product.size) {
+          if (
+            item.id === product.id &&
+            item.size === product.size &&
+            item.colors === product.colors
+          ) {
             return { ...item, quantity: quantity };
           }
           return item;
@@ -63,7 +74,10 @@ export const useCartStore = create<state>()(
         // );
         set({
           cart: cart.filter(
-            (item) => item.id !== product.id || item.size !== product.size
+            (item) =>
+              item.id !== product.id ||
+              item.size !== product.size ||
+              item.colors !== product.colors
           ),
         });
       },

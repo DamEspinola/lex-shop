@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { useCartStore } from "@/store";
 import { ProductImage, QuantitySelector } from "@/components";
 import Link from "next/link";
@@ -14,15 +13,16 @@ export const ProductInCart = () => {
 
   useEffect(() => {
     setLoaded(true);
-  });
+  }, []);
 
   if (!loaded) {
     return <p>Loading....</p>;
   }
+
   return (
     <>
       {productsCart.map((product) => (
-        <div key={`${product.slug}-${product.size}`} className="flex mb-5">
+        <div key={`${product.slug}-${product.size}-${product.colors}`} className="flex mb-5">
           <ProductImage
             src={product.image}
             alt={product.title}
@@ -39,7 +39,7 @@ export const ProductInCart = () => {
               className="hover:underline cursor-pointer"
               href={`/product/${product.slug}`}
             >
-              {product.size} - {product.title}
+              {product?.size} {product?.colors} - {product.title}
             </Link>
             <p>${product.price}</p>
             <QuantitySelector

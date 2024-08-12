@@ -68,7 +68,7 @@ export default async function OrdersPage({ searchParams }: Props) {
                 scope="col"
                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-                Tallas
+                Tamaño
               </th>
             </tr>
           </thead>
@@ -101,14 +101,14 @@ export default async function OrdersPage({ searchParams }: Props) {
                   {currencyFormat(product.price)}
                 </td>
                 <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
-                  {product.gender}
+                  {product.categories}
                 </td>
                 <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
                   {product.inStock}
                 </td>
 
                 <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
-                  {product.sizes.join(', ')}
+                  {product?.sizes.join(', ') || product?.storage.join(', ')} 
                 </td>
               </tr>
             ))}

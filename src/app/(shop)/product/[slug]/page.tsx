@@ -3,10 +3,9 @@ export const revalidate = 604800; // <- 7 días aprox.
 import { getProductBySlug, getStockBySlug } from "@/actions";
 import {
   MobileSlideShow,
-  QuantitySelector,
-  SizeSelector,
   SlideShow,
   StockLabel,
+  StorageCapacity,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
 import { Metadata, ResolvingMetadata } from "next";
@@ -78,8 +77,12 @@ export default async function ProductsByIdPage({ params }: Props) {
           {products.title}
         </h1>
         <p className="text-lg mb-5">${products.price}</p>
+        {/* items storage  */}
+        {products.sizes.length === 0 && (
+          <StorageCapacity avaliableStorage={products.storage} />
+        )}
         {/* selector de tallas */}
-        <AddToCart product={products} stock={stock}/>
+        <AddToCart product={products} stock={stock} />
         {/* <SizeSelector
           SelectedSize={products.sizes[0]}
           avaliableSize={products.sizes}
