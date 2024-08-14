@@ -14,18 +14,9 @@ import {
 import { useUIStore } from "@/store";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
-import { Search } from "@/components/search/Search";
-import { Product } from "@/interfaces";
-import { Suspense } from "react";
+import { Search } from "@/components";
 
-export const Sidebar = ({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: Product[];
-  };
-}) => {
-  const query = searchParams?.query || [];
+export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
@@ -68,9 +59,7 @@ export const Sidebar = ({
         />
 
         {/* InputSearch */}
-        <Suspense fallback={<div>Loading search...</div>}>
-          <Search query={query} />
-        </Suspense>
+        <Search />
 
         {/* Menú */}
         {isAuthenticated && (
@@ -99,7 +88,6 @@ export const Sidebar = ({
           <button
             className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
             onClick={refresh}
-            // onClick={()=> logout()}
           >
             <IoLogOutOutline size={30} />
             <span className="ml-3 text-xl">Salir</span>
