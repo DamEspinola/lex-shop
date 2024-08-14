@@ -15,6 +15,7 @@ import { useUIStore } from "@/store";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
 import { Search } from "@/components";
+import { Suspense } from "react";
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
@@ -59,7 +60,9 @@ export const Sidebar = () => {
         />
 
         {/* InputSearch */}
-        <Search />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Search />
+        </Suspense>
 
         {/* Menú */}
         {isAuthenticated && (

@@ -7,6 +7,7 @@ import { SearchData } from "./SearchData";
 import { IoSearchOutline } from "react-icons/io5";
 import { Product } from "@/interfaces";
 
+
 export const Search = ({
   queryParams,
 }: {
@@ -20,7 +21,10 @@ export const Search = ({
   const [search, setSearch] = useState<string>("");
   const query = queryParams?.query || [];
 
+
   const handleSearch = useDebouncedCallback((query: string) => {
+    console.log(`Searching... ${query}`);
+
     const params = new URLSearchParams(searchParams);
     if (query) {
       params.set("query", query);
@@ -48,7 +52,7 @@ export const Search = ({
         defaultValue={searchParams.get("query")?.toString()}
         className="w-full bg-gray-50 rounded-lg pl-10 py-2 pr-4 border border-gray-300 shadow-md text-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <SearchData query={query} search={search} />
+        <SearchData query={query} search={search} />
     </div>
   );
 };
