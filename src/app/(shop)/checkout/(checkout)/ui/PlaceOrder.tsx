@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import {   useRouter } from "next/navigation";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import clsx from "clsx";
@@ -22,14 +22,12 @@ export const PlaceOrder = () => {
 
   useEffect(() => {
     setLoaded(true);
-    if (itemsCart === 0) { // validacion si esta vacio los items
-      redirect("/empty");
-    }
-  }, [itemsCart]);
-
-  if (!loaded) {
-    <p>Cargando...</p>;
-  }
+  }, []);
+  
+  // if (itemsCart === 0) { // validacion si esta vacio los items
+  //   redirect("/empty");
+  // }
+  
 
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
@@ -50,6 +48,10 @@ export const PlaceOrder = () => {
     // Todo salio bien
     clearCart();
     router.replace("/orders/" + resp.order?.id);
+
+    if (!loaded) {
+      <p>Cargando...</p>;
+    }
   };
 
   return (
