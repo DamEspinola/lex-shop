@@ -14,6 +14,7 @@ import {
 import { useUIStore } from "@/store";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
+import { DropdownButton } from "./DropdownButton";
 import { Search } from "@/components";
 import { Suspense } from "react";
 
@@ -47,7 +48,7 @@ export const Sidebar = () => {
       {/* Sidermenu */}
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-full sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
+          "fixed p-5 right-0 top-0 w-[300px] sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
           {
             "translate-x-full": !isSideMenuOpen,
           }
@@ -84,6 +85,7 @@ export const Sidebar = () => {
               <IoTicketOutline size={30} />
               <span className="ml-3 text-xl">Ordenes</span>
             </Link>
+            <DropdownButton />
           </>
         )}
 

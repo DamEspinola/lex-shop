@@ -84,9 +84,8 @@ export const TopMenu = () => {
       {/* Search, cart, menu */}
       <div className="flex items-center">
         <button onClick={openSideMenu} className="mx-2">
-          <IoSearchOutline className="w-5 h-5" />
+          <IoSearchOutline size={20} />
         </button>
-
         <Link
           href={totalItemsInCart === 0 && loaded ? "/empty" : "/cart"}
           className="mx-2"
