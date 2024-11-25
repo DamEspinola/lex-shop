@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { titleFont } from "@/config/fonts";
 import { useCartStore, useUIStore } from "@/store";
-import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
-import { PiMonitorLight } from "react-icons/pi";
-import { BsPlugin } from "react-icons/bs";
-import { MdPhoneIphone } from "react-icons/md";
-import { FaStore } from "react-icons/fa";
-import { Dropdown } from "./Dropdown";
-import { FaBagShopping } from "react-icons/fa6";
+import { IoCartOutline } from "react-icons/io5";
+import { Search } from "@/components";
+import { MultiLevelDropdown } from "./MultiLevelDropdown";
+import { CiLocationOn } from "react-icons/ci";
+import { BsMegaphone } from "react-icons/bs";
 
 export const TopMenu = () => {
   const openSideMenu = useUIStore((state) => state.openSideMenu);
@@ -22,90 +20,71 @@ export const TopMenu = () => {
   }, []);
 
   return (
-    <nav className="flex px-5 justify-between items-center w-full">
-      {/* logo */}
-      <div>
-        <Link href="/">
-          <span
-            className={`${titleFont.className} antialiased font-bold text-green-700`}
+    <nav className="bg-green-950">
+      <div className="px-10 flex flex-col h-[150px] sm:h-[88px] sm:flex-row justify-between items-center w-full">
+        {/* logo */}
+        <div className="text-2xl my-3">
+          <Link href="/">
+            <span
+              className={`${titleFont.className} antialiased font-normal text-white`}
+            >
+              Campestre
+            </span>
+            <span
+              className={`${titleFont.className} antialiased font-bold text-white`}
+            >
+              {" "}
+              | Micro-Importado
+            </span>
+          </Link>
+        </div>
+        {/* Center Menu */}
+        <div className="sm:flex text-white">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search />
+          </Suspense>
+        </div>
+
+        {/* cart, menu */}
+        <div className="flex items-center text-white ">
+          <Link
+            href={totalItemsInCart === 0 && loaded ? "/empty" : "/cart"}
+            className="mx-2"
           >
-            Lex Shipping
-          </span>
-          <span className={`${titleFont.className} antialiased font-bold`}>
-            {" "}
-            | Tienda
-          </span>
-        </Link>
+            <div className="relative">
+              {loaded && totalItemsInCart > 0 && (
+                <span className="fade-in absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-green-700 text-white">
+                  {totalItemsInCart}
+                </span>
+              )}
+              <IoCartOutline className="w-5 h-5" />
+            </div>
+          </Link>
+
+          <button
+            onClick={openSideMenu}
+            className="m-2 p-2 rounded-md transition-all hover:bg-green-950"
+          >
+            Menú
+          </button>
+        </div>
       </div>
-      {/* Center Menu */}
-      <div className="hidden sm:flex space-x-2">
+      <div className="hidden text-white px-10 sm:flex space-x-2 ">
+        <MultiLevelDropdown />
         <Link
-          href="/category/informatics"
-          className="m-2 p-2 flex rounded-md transition-all hover:bg-gray-100"
+          href="/"
+          className="px-5 items-center my-2 flex  font-medium rounded-md transition-all hover:bg-green-800"
         >
-          <PiMonitorLight size={20} className="mr-2" />
-          Informática
-        </Link>
-        <Link
-          href="/category/appliances"
-          className="m-2 p-2 flex rounded-md transition-all hover:bg-gray-100"
-        >
-          <BsPlugin size={20} className="mr-2" />
-          Electrodomésticos
-        </Link>
-        <Dropdown
-          items={[
-            { href: "/category/fashion_men", label: "Moda masculina" },
-            { href: "/category/fashion_women", label: "Moda Femenina" },
-            { href: "/category/fashion_kid", label: "Moda para Niños" },
-            { href: "/category/fashion_unisex", label: "Moda Unisex" },
-            { href: "/category/accessories", label: "Accesorios" },
-            { href: "/category/fragances", label: "Perfumes" },
-          ]}
-        >
-          <FaBagShopping size={20} className="mr-2" />
-          Belleza & Moda
-        </Dropdown>
-        <Link
-          href="/category/smartphones"
-          className="m-2 p-2 flex rounded-md transition-all hover:bg-gray-100"
-        >
-          <MdPhoneIphone size={20} className="mr-2" />
-          Celulares
+          <BsMegaphone size={20} />
+          <span className="ml-3">Novedades</span>
         </Link>
         <Link
           href="/"
-          className="m-2 p-2 flex  rounded-md transition-all hover:bg-gray-100"
+          className="px-5 items-center my-2 flex font-medium rounded-md transition-all hover:bg-green-800"
         >
-          <FaStore size={20} className="mr-2" />
-          Varios
+          <CiLocationOn size={20} />
+          <span className="ml-3">Nuestra ubicación</span>
         </Link>
-      </div>
-      {/* Search, cart, menu */}
-      <div className="flex items-center">
-        <button onClick={openSideMenu} className="mx-2">
-          <IoSearchOutline size={20} />
-        </button>
-        <Link
-          href={totalItemsInCart === 0 && loaded ? "/empty" : "/cart"}
-          className="mx-2"
-        >
-          <div className="relative">
-            {loaded && totalItemsInCart > 0 && (
-              <span className="fade-in absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-green-700 text-white">
-                {totalItemsInCart}
-              </span>
-            )}
-            <IoCartOutline className="w-5 h-5" />
-          </div>
-        </Link>
-
-        <button
-          onClick={openSideMenu}
-          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
-        >
-          Menú
-        </button>
       </div>
     </nav>
   );

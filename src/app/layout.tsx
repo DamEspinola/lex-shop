@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DmSans } from "../config/fonts";
+import { DmSans } from "@/config/fonts";
 import { Providers } from "@/components";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Lex-Shipping | Shop",
-    default: "Home - Lex-Shipping | Shop",
+    template: "%s - Campestre | Micro-Importados",
+    default: "Campestre | Micro-Importados",
   },
-  description: "Logística Inteligente",
+  description: "Tu logística Inteligente",
 };
 
 export default function RootLayout({

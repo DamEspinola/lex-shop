@@ -3,7 +3,6 @@
 import Link from "next/link";
 import clsx from "clsx";
 import {
-  IoCloseOutline,
   IoLogInOutline,
   IoLogOutOutline,
   IoPeopleOutline,
@@ -14,9 +13,8 @@ import {
 import { useUIStore } from "@/store";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
-import { DropdownButton } from "./DropdownButton";
-import { Search } from "@/components";
-import { Suspense } from "react";
+import { MobileMultiLevelDropdown } from "./MultiLevelDropdown";
+import { LuPanelRightClose } from "react-icons/lu";
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
@@ -26,7 +24,8 @@ export const Sidebar = () => {
   const isAdmin = session?.user.role === "admin";
 
   const refresh = () => {
-    window.location.replace("/"), closeMenu();
+    window.location.replace("/")
+    closeMenu();
     logout();
   };
 
@@ -48,22 +47,19 @@ export const Sidebar = () => {
       {/* Sidermenu */}
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[300px] sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
+          "fixed p-5 right-0 top-0 w-[300px] sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300 overflow-y-auto",
           {
             "translate-x-full": !isSideMenuOpen,
           }
         )}
       >
-        <IoCloseOutline
-          size={50}
+        <LuPanelRightClose
+          size={30}
           className="absolute top-5 right-5 cursor-pointer"
           onClick={() => closeMenu()}
         />
 
-        {/* InputSearch */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Search />
-        </Suspense>
+        <MobileMultiLevelDropdown />
 
         {/* Menú */}
         {isAuthenticated && (
@@ -85,7 +81,6 @@ export const Sidebar = () => {
               <IoTicketOutline size={30} />
               <span className="ml-3 text-xl">Ordenes</span>
             </Link>
-            <DropdownButton />
           </>
         )}
 

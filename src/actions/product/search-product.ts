@@ -8,16 +8,25 @@ export const searchProduct = async (query: string) => {
       where: {
         title: {
           contains: query,
-          mode: "insensitive"
+          mode: "insensitive",
         },
       },
+
       select: {
+        ProductImage: {
+          select: {
+            url: true,
+          },
+        },
         title: true,
         slug: true,
       },
     });
     if (!product) return null;
-    return product;
+    return product.map((product) => ({
+      ...product,
+      images: product.ProductImage.map((image) => image.url),
+    }));
   } catch (error) {
     console.log(error);
     throw new Error("Error en la busqueda");

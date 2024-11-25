@@ -11,7 +11,7 @@ export interface Product {
   title: string;
   storage: Storage[];
   categories: Categories;
-  //todo: Type;
+  // todo: type
 }
 
 export interface CartProduct {
